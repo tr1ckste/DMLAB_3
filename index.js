@@ -138,6 +138,56 @@ const multiplyMatrix = ( matrix1, matrix2 ) => {
   return result;
 }
 
+const addMatrix = ( matrix1, matrix2 ) => {
+  let result = [];
+  for ( let i = 0; i < matrix1.length; i++ ) {
+    result.push(new Array(null));
+    for (let j = 0; j < matrix2.length; j++ ) {
+      result[i][j] = matrix1[i][j] + matrix2[i][j];
+    }
+  }
+  return result;
+}
+
+const generateUnitMatrix = ( length ) => {
+  let I = [];
+  for ( let i = 0; i < length; i++ ) {
+    I.push(new Array(null));
+    for ( let j = 0; j < length; j++ ) {
+      if ( j === i ) I[i][j] = 1;
+      else I[i][j] = 0;
+    }
+  }
+  return I;
+}
+
+const transformToBool = matrix => {
+  for ( let i = 0; i < matrix.length; i++ ) {
+    for ( let j = 0; j < matrix.length; j++ ) {
+      if ( matrix[i][j] !== 0 ) {
+        matrix[i][j] = 1;
+      }
+    }
+  }
+  return matrix;
+}
+
+const reachableMatrix = matrix => {
+  let length = matrix.length;
+  let I = generateUnitMatrix( length );
+  let temp = matrix;
+  let arr = [];
+  let result = matrix;
+  for ( let i = 0; i < length - 1; i++ ) {
+    arr.push(temp);
+    temp = multiplyMatrix( temp, matrix );
+  }
+  for ( let i = 1; i < arr.length; i++ ) {
+    result = addMatrix( result, arr[i] );
+  }
+  return transformToBool( addMatrix( result, I ) );
+}
+
 const ways = allPosWays(MATRIX);
 
 let paths2 = findPaths( ways, 2 );
@@ -146,13 +196,4 @@ let paths3 = findPaths( ways, 3 );
 createList( paths2, "div.scrolling2" );
 createList( paths3, "div.scrolling3" );
 
-console.log(multiplyMatrix( [
-  [1, 2, 1, 9],
-  [3, 1, 5, 1]
-],
-[
-  [3, 1],
-  [2, 1],
-  [5, 2],
-  [9, 1]
-] ))
+const mineReachableMatrix = reachableMatrix( MATRIX );
