@@ -30,10 +30,10 @@ class Path {
   }
 
   get route() {
-    let key = `${+this.ways[0].from + 1} - `;
+    let key = `${ +this.ways[0].from + 1 } - `;
     for ( const i in this.ways ) {
-      key += (+this.ways[i].to + 1).toString();
-      if ( +i !== (this.ways.length - 1)) { 
+      key += +this.ways[i].to + 1;
+      if ( +i !== ( this.ways.length - 1 ) ) { 
         key += ' - ';
       }
     }
@@ -69,15 +69,13 @@ const hasWay = ( arr, way ) => {
 
 const findPaths = ( ways, length ) => {
   let paths = initiatePaths( ways );
-  if ( length > 1 ) {
-    for ( let i = 1; i < length; i++ ) {
-      let copy = paths;
-      paths = [];
-      for ( const path of copy ) {
-        let nextPeaks = findNextPeaks( path, ways );
-        for ( const peak of nextPeaks ) {
-          paths.push(new Path( [...path.ways, peak] ));
-        }
+  for ( let i = 1; i < length; i++ ) {
+    let copy = paths;
+    paths = [];
+    for ( const path of copy ) {
+      let nextPeaks = findNextPeaks( path, ways );
+      for ( const peak of nextPeaks ) {
+        paths.push(new Path( [...path.ways, peak] ));
       }
     }
   }
@@ -197,3 +195,4 @@ createList( paths2, "div.scrolling2" );
 createList( paths3, "div.scrolling3" );
 
 const mineReachableMatrix = reachableMatrix( MATRIX );
+
