@@ -3,7 +3,7 @@ canvas {
   float: left;
 }
 
-.prokrutka2 {
+.scrolling2 {
   width:250px; /* ширина нашего блока */
   height:200px; /* высота нашего блока */
   background: #fff; /* цвет фона, белый */
@@ -11,7 +11,7 @@ canvas {
   overflow: auto; /* свойство для прокрутки по горизонтали. Автоматом, если больше блока */
 }
 
-.prokrutka3 {
+.scrolling3 {
   width:250px; /* ширина нашего блока */
   height:200px; /* высота нашего блока */
   background: #fff; /* цвет фона, белый */
