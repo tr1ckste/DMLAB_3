@@ -4,17 +4,17 @@ canvas {
 }
 
 .scrolling2 {
-  width:250px; /* ширина нашего блока */
-  height:200px; /* высота нашего блока */
-  background: #fff; /* цвет фона, белый */
-  border: 1px solid #C1C1C1; /* размер и цвет границы блока */
-  overflow: auto; /* свойство для прокрутки по горизонтали. Автоматом, если больше блока */
+  width:250px;
+  height:200px;
+  background: #fff;
+  border: 1px solid #C1C1C1;
+  overflow: auto;
 }
 
 .scrolling3 {
-  width:250px; /* ширина нашего блока */
-  height:200px; /* высота нашего блока */
-  background: #fff; /* цвет фона, белый */
-  border: 1px solid #C1C1C1; /* размер и цвет границы блока */
-  overflow: auto; /* свойство для прокрутки по горизонтали. Автоматом, если больше блока */
+  width:250px;
+  height:200px;
+  background: #fff;
+  border: 1px solid #C1C1C1;
+  overflow: auto; 
 }
