@@ -128,13 +128,13 @@ const multiplyMatrix = ( matrix1, matrix2 ) => {
   let result = [];
   if (cols1 !== rows2) return false;
   for (let i = 0; i < rows1; i++) result[ i ] = [];
-    for (let k = 0; k < cols2; k++) {
-       for (let i = 0; i < rows1; i++) {
-          let t = 0;
-          for (let j = 0; j < rows2; j++) t += matrix1[ i ][j] * matrix2[j][k];
-          result[i][k] = t;
-        }
+  for (let k = 0; k < cols2; k++) {
+    for (let i = 0; i < rows1; i++) {
+      let t = 0;
+      for (let j = 0; j < rows2; j++) t += matrix1[ i ][j] * matrix2[j][k];
+      result[i][k] = t;
     }
+  }
   return result;
 }
 
@@ -145,7 +145,6 @@ let paths3 = findPaths( ways, 3 );
 
 createList( paths2, "div.scrolling2" );
 createList( paths3, "div.scrolling3" );
-
 
 console.log(multiplyMatrix( [
   [1, 2, 1, 9],
