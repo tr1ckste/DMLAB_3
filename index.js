@@ -120,6 +120,24 @@ const createList = ( paths, divElem ) => {
   }
 }
 
+const multiplyMatrix = ( matrix1, matrix2 ) => { 
+  const rows1 = matrix1.length; 
+  const cols1 = matrix1[0].length;
+  const rows2 = matrix2.length;
+  const cols2 = matrix2[0].length;
+  let result = [];
+  if (cols1 !== rows2) return false;
+  for (let i = 0; i < rows1; i++) result[ i ] = [];
+    for (let k = 0; k < cols2; k++) {
+       for (let i = 0; i < rows1; i++) {
+          let t = 0;
+          for (let j = 0; j < rows2; j++) t += matrix1[ i ][j] * matrix2[j][k];
+          result[i][k] = t;
+        }
+    }
+  return result;
+}
+
 const ways = allPosWays(MATRIX);
 
 let paths2 = findPaths( ways, 2 );
@@ -127,3 +145,15 @@ let paths3 = findPaths( ways, 3 );
 
 createList( paths2, "div.scrolling2" );
 createList( paths3, "div.scrolling3" );
+
+
+console.log(multiplyMatrix( [
+  [1, 2, 1, 9],
+  [3, 1, 5, 1]
+],
+[
+  [3, 1],
+  [2, 1],
+  [5, 2],
+  [9, 1]
+] ))
