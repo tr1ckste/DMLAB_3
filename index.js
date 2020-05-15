@@ -125,5 +125,5 @@ const ways = allPosWays(MATRIX);
 let paths2 = findPaths( ways, 2 );
 let paths3 = findPaths( ways, 3 );
 
-createList( paths2, "div.prokrutka2" );
-createList( paths3, "div.prokrutka3" );
+createList( paths2, "div.scrolling2" );
+createList( paths3, "div.scrolling3" );
