@@ -4,16 +4,16 @@
 // const ctx = canvas.getContext('2d');
 
 const MATRIX = [
-  [0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
-  [0, 0, 1, 0, 1, 0, 0, 0, 1, 0],
-  [0, 0, 0, 0, 0, 0, 1, 1, 0, 0],
-  [0, 0, 0, 0, 1, 1, 0, 1, 1, 0],
-  [0, 1, 0, 0, 0, 0, 0, 0, 0, 1],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
-  [0, 1, 0, 0, 0, 1, 0, 0, 1, 0],
-  [0, 1, 0, 1, 1, 0, 0, 0, 1, 1]
+  [ 1, 1, 0, 0, 0, 0, 0, 0, 0, 0 ],
+  [ 1, 0, 0, 0, 0, 0, 0, 1, 0, 0 ],
+  [ 1, 0, 1, 0, 0, 0, 0, 0, 0, 0 ],
+  [ 1, 0, 0, 1, 1, 0, 0, 1, 0, 0 ],
+  [ 0, 0, 0, 0, 0, 0, 0, 0, 1, 1 ],
+  [ 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 ],
+  [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+  [ 0, 1, 0, 1, 0, 0, 0, 0, 0, 0 ],
+  [ 0, 0, 0, 1, 0, 0, 0, 0, 0, 0 ],
+  [ 0, 0, 0, 0, 1, 0, 0, 0, 0, 0 ]
 ];
 let N = MATRIX.length;
 
@@ -41,10 +41,14 @@ class Path {
   }
 }
 
+const compareArrs = ( arr1, arr2 ) => {
+  return JSON.stringify(arr1) === JSON.stringify(arr2);
+}
+
 const compareWays = ( way1, way2 ) => {
   const arr1 = [ way1.to, way1.from ];
   const arr2 = [ way2.to, way2.from ];
-  return ( JSON.stringify(arr1) === JSON.stringify(arr2));
+  return compareArrs( arr1, arr2 );
 }
 
 const allPosWays = ( matrix ) => {
@@ -186,7 +190,62 @@ const reachableMatrix = matrix => {
   return transformToBool( addMatrix( result, I ) );
 }
 
-const ways = allPosWays(MATRIX);
+const transformMatrix = matrix => {
+  let m = matrix.length;
+  let n = matrix[0].length;
+  let result = [];
+  for (let i = 0; i < n; i++) {
+    result[i] = [];
+    for (let j = 0; j < m; j++) result[i][j] = matrix[j][i];
+  }
+  return result;
+}
+
+const eachElementMult = ( matrix1, matrix2 ) => {
+  let result = [];
+  for ( let i in matrix1 ) {
+    result[i] = [];
+    for ( let j in matrix1[i] ) {
+      result[i][j] = matrix1[i][j] * matrix2[i][j];
+    }
+  }
+  return result;
+}
+
+const displayMatrix = ( matrix, divElem ) => {
+  let div = document.querySelector(divElem);
+  for ( let arr of matrix ) {
+    let p = document.createElement("p");
+    let text = document.createTextNode(arr);
+    p.appendChild(text);
+    div.appendChild(p);
+  }
+}
+
+class strongComponent {
+  constructor ( example, prots ) {
+    this.example = example;
+    this.prots = prots;
+  }
+}
+
+const defineStrngComp = matrix => {
+  matrix = transformMatrix( matrix );
+  let components = [];
+  components.push( new strongComponent( matrix[0], [0] ) );
+  label: for ( let arrInd = 1; arrInd < matrix.length; arrInd++ ) {
+    for (let compInd in components ) {
+      if ( compareArrs( matrix[arrInd], components[compInd].example ) ) {
+        components[compInd].prots.push( +arrInd );
+        continue label;
+      }
+    }
+    components.push( new strongComponent( matrix[arrInd], +arrInd ) );
+  }
+  return components;
+}
+
+const ways = allPosWays( MATRIX );
 
 let paths2 = findPaths( ways, 2 );
 let paths3 = findPaths( ways, 3 );
@@ -194,5 +253,10 @@ let paths3 = findPaths( ways, 3 );
 createList( paths2, "div.scrolling2" );
 createList( paths3, "div.scrolling3" );
 
-const mineReachableMatrix = reachableMatrix( MATRIX );
+const reachMtrx = reachableMatrix( MATRIX );
+const strongConnectivity = eachElementMult( reachMtrx, transformMatrix(reachMtrx));
 
+displayMatrix( strongConnectivity, "div.strongMtrx" );
+
+const strongComps = defineStrngComp( strongConnectivity );
+console.log(strongComps);
