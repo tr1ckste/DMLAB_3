@@ -12,12 +12,24 @@ canvas {
 }
 
 .scrolling3 {
-  width:250px;
-  height:200px;
+  width: 250px;
+  height: 200px;
   background: #fff;
   border: 1px solid #C1C1C1;
   overflow: auto; 
 }
+
+.scrolling {
+  margin-left: 20px;
+  float: left;
+  height: 600px;
+}
+
+#strongMtrxh2 {
+  width: 160px;
+}
+
 .strongMtrx {
+  border: 1px solid lightgray;
   text-indent: 0%;
 }

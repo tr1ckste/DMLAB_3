@@ -41,6 +41,13 @@ class Path {
   }
 }
 
+class strongComponent {
+  constructor ( example, prots ) {
+    this.example = example;
+    this.prots = prots;
+  }
+}
+
 const compareArrs = ( arr1, arr2 ) => {
   return JSON.stringify(arr1) === JSON.stringify(arr2);
 }
@@ -222,13 +229,6 @@ const displayMatrix = ( matrix, divElem ) => {
   }
 }
 
-class strongComponent {
-  constructor ( example, prots ) {
-    this.example = example;
-    this.prots = prots;
-  }
-}
-
 const defineStrngComp = matrix => {
   matrix = transformMatrix( matrix );
   let components = [];
@@ -240,9 +240,37 @@ const defineStrngComp = matrix => {
         continue label;
       }
     }
-    components.push( new strongComponent( matrix[arrInd], +arrInd ) );
+    components.push( new strongComponent( matrix[arrInd], [+arrInd] ) );
   }
   return components;
+}
+
+const isConnected = ( comp1, comp2, ways ) => {
+  for ( let i in ways ) {
+    for ( let prot1 of comp1.prots ) {
+      for (let prot2 of comp2.prots ) {
+        if ( +ways[i].from === +prot1 && +ways[i].to === +prot2 ) {
+          return true;
+        }
+      }
+    }
+  }
+  return false;
+}
+
+const getCondensMtrx = ( comps, ways ) => {
+  let matrix = [];
+  for ( let compInd in comps ) {
+    matrix.push( new Array(null) );
+    for ( let dpCompInd in comps ) {
+      if ( isConnected( comps[compInd], comps[dpCompInd], ways ) ) {
+        matrix[compInd][dpCompInd] = 1;
+      } else {
+        matrix[compInd][dpCompInd] = 0;
+      }
+    }
+  }
+  return matrix;
 }
 
 const ways = allPosWays( MATRIX );
@@ -256,7 +284,10 @@ createList( paths3, "div.scrolling3" );
 const reachMtrx = reachableMatrix( MATRIX );
 const strongConnectivity = eachElementMult( reachMtrx, transformMatrix(reachMtrx));
 
+displayMatrix( reachMtrx, "div.reachable");
 displayMatrix( strongConnectivity, "div.strongMtrx" );
 
 const strongComps = defineStrngComp( strongConnectivity );
-console.log(strongComps);
+const condexMtrx = getCondensMtrx( strongComps, ways );
+
+displayMatrix( condexMtrx, "div.strongComps" );
